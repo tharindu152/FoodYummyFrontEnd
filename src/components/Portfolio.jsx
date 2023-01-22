@@ -5,7 +5,7 @@ function Portfolio() {
   return (
     <div className='PortSection' id='portfolio'>
       <div className='background'>
-        <img src={background} alt='' />
+        <img src={background} alt='background' />
       </div>
       <div className='content'>
         <h1>Enjoy your stay!</h1>

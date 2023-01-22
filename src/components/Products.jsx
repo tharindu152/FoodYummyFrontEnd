@@ -72,7 +72,7 @@ function Products() {
           return (
             <div className='product' key={i}>
               <div className='image'>
-                <img src={recipe.image} alt='' />
+                <img src={recipe.image} alt='recipe' />
               </div>
               <h2>{recipeName}</h2>
               <ul>

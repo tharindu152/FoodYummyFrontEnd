@@ -6,11 +6,11 @@ function Hero() {
   return (
     <div className='Section' id='home'>
       <div className='background'>
-        <img src={hero} />
+        <img src={hero} alt='Hero' />
       </div>
       <div className='content'>
         <div className='sale'>
-          <img src={heroDesign} />
+          <img src={heroDesign} alt='Logo' />
           <h1>Discover Create Update Cook</h1>
         </div>
         <div className='info'>

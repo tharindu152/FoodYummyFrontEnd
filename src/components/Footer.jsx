@@ -10,7 +10,7 @@ function Footer() {
     <div className='footer' id='footer'>
       <div className='Footer'>
         <div className='brand container'>
-          <img src={logo} alt='' />
+          <img src={logo} alt='logo' />
           <p>
             We offer you a wide variety of easy-to-follow recipes for all skill
             levels, including meal ideas for special diets.
