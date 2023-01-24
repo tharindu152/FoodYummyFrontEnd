@@ -7,10 +7,12 @@ import Modal from 'react-bootstrap/Modal';
 import Services1 from '../assets/Services1.png';
 import Services2 from '../assets/Services2.png';
 import Services3 from '../assets/Services3.png';
-// import { TitleStyles } from './ReusableStyles';
+import { useToast } from '@chakra-ui/react';
 
 function Services() {
   const [show, setShow] = useState(false);
+  const toast = useToast();
+  const [isLoading, setLoading] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -32,7 +34,13 @@ function Services() {
       !ingredient5 ||
       !image
     ) {
-      console.log('Please fill all feilds');
+      toast({
+        title: 'Please fill all the feilds',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
       return;
     }
     try {
@@ -42,7 +50,7 @@ function Services() {
         },
       };
       const { data } = await axios.post(
-        'https://calm-blue-colt-sari.cyclic.app/api/recipe',
+        'http://127.0.0.1:5000/api/recipe',
         {
           recipeName,
           ingredient1,
@@ -55,10 +63,22 @@ function Services() {
         config
       );
       localStorage.setItem('recipeInfo', JSON.stringify(data));
-
       console.log(data);
+      toast({
+        title: 'Successfully created the recipe',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
     } catch (err) {
-      console.log(err);
+      toast({
+        title: 'Recipe creation failed',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
     }
   };
 
@@ -69,6 +89,7 @@ function Services() {
 
     console.log(pics);
     if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
+      setLoading(true);
       const data = new FormData();
       data.append('file', pics);
       data.append('upload_preset', 'chat-app');
@@ -81,6 +102,7 @@ function Services() {
         .then((data) => {
           setImage(data.url.toString());
           console.log(data.url.toString());
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -226,12 +248,17 @@ function Services() {
           <Modal.Footer>
             <Button
               variant='primary'
-              onClick={(e) => {
-                submitHandler();
-                handleClose();
-              }}
+              disabled={isLoading}
+              onClick={
+                !isLoading
+                  ? (e) => {
+                      submitHandler();
+                      handleClose();
+                    }
+                  : null
+              }
             >
-              Submit
+              {isLoading ? 'Loading…' : 'Submit'}
             </Button>
           </Modal.Footer>
         </Modal>

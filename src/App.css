@@ -508,6 +508,10 @@ section {
   align-items: center;
 }
 
+.prdctSection .products .product h2 {
+  font-size: x-large;
+}
+
 .prdctSection .products .product h3 {
   color: #fc4958;
 }

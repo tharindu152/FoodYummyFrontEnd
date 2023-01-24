@@ -9,10 +9,11 @@ import Services from './components/Services';
 import Products from './components/Products';
 import NewsLetter from './components/NewsLetter';
 import Footer from './components/Footer';
+import { ChakraProvider } from '@chakra-ui/react';
 
 function App() {
   return (
-    <>
+    <ChakraProvider>
       <ScrollToTop />
       <NaviBar />
       <Hero />
@@ -22,7 +23,7 @@ function App() {
       <Testimonials />
       <NewsLetter />
       <Footer />
-    </>
+    </ChakraProvider>
   );
 }
 

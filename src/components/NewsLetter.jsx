@@ -21,7 +21,6 @@ function NewsLetter() {
           <a className='btn' href='mailto:chanaka152@gmail.com'>
             Email and Subscribe
           </a>
-          {/* <button href='mailto:chanaka152@gmail.com'>Subscribe</button> */}
         </form>
       </div>
     </div>

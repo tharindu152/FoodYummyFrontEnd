@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useToast } from '@chakra-ui/react';
 
 function Products() {
   const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const toast = useToast();
   // const [deleterecipe, setdeleterecipe] = useState('');
 
   function handleChange(e) {
@@ -14,26 +17,40 @@ function Products() {
   const handleSearch = async () => {
     console.log(search);
     if (!search) {
+      toast({
+        title: 'Please enter a search term',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
       return;
     }
-
+    //https://calm-blue-colt-sari.cyclic.app
     try {
+      setLoading(true);
       const { data } = await axios.get(
-        `https://calm-blue-colt-sari.cyclic.app/api/recipe?search=${search}`
+        `http://127.0.0.1:5000/api/recipe?search=${search}`
       );
       console.log(data);
       setSearchResult(data);
+      setLoading(false);
+
+      if (data.length === 0) {
+        toast({
+          title: 'No recipies found. Please try another.',
+          status: 'warning',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom',
+        });
+      }
+
       // console.log(searchResult);
     } catch (error) {
       console.log(error);
     }
   };
-
-  function deleteItem(id) {
-    setSearchResult((prevRecipies) => {
-      return prevRecipies.filter((recipe) => recipe !== prevRecipies[id]);
-    });
-  }
 
   // useEffect(() => {
   //   handleSearch();
@@ -50,18 +67,22 @@ function Products() {
         <div className='container'>
           <input
             type='text'
-            placeholder='Search for favorite ...'
+            placeholder='Search key word pizza or what you created ...'
             onChange={handleChange}
             value={search}
           />
 
           <button
-            onClick={(e) => {
-              handleSearch();
-              setSearch('');
-            }}
+            onClick={
+              !isLoading
+                ? (e) => {
+                    handleSearch();
+                    setSearch('');
+                  }
+                : null
+            }
           >
-            Search
+            {isLoading ? 'Searching…' : 'Search'}
           </button>
         </div>
       </div>
@@ -82,12 +103,16 @@ function Products() {
                 <li>{recipe.ingredient4}</li>
                 <li>{recipe.ingredient5}</li>
               </ul>
-              <div className='prdctBtns'>
+              {/* <div className='prdctBtns'>
                 <button>Update</button>
-                <button id='i' onClick={deleteItem}>
+                <button
+                  value={recipe._id}
+                  name='recipeId'
+                  // onClick={(e) => deleteItem(recipe._id)}
+                >
                   Delete
                 </button>
-              </div>
+              </div> */}
             </div>
           );
         })}
