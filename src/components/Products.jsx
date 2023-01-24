@@ -30,7 +30,7 @@ function Products() {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://127.0.0.1:5000/api/recipe?search=${search}`
+        `https://calm-blue-colt-sari.cyclic.app/api/recipe?search=${search}`
       );
       console.log(data);
       setSearchResult(data);
